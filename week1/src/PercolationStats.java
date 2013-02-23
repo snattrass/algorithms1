@@ -8,6 +8,8 @@
 public class PercolationStats
 {
     private double[] percolationThresholds;
+    private int gridSize;
+    private int numberOfExperiments;
 
     /**
      * Perform T independent computational experiments on an N-by-N grid
@@ -18,22 +20,25 @@ public class PercolationStats
             throw new IllegalArgumentException("N and T must be > 0");
         }
 
-        percolationThresholds = new double[T];
-        for (int i = 0; i < T; i++) {
-            Percolation percolation = new Percolation(N);
+        gridSize = N;
+        numberOfExperiments = T;
+
+        percolationThresholds = new double[numberOfExperiments];
+        for (int i = 0; i < numberOfExperiments; i++) {
+            Percolation percolation = new Percolation(gridSize);
             double openSites = 0;
 
             while (!percolation.percolates())
             {
-                int row = StdRandom.uniform(N) + 1;
-                int col = StdRandom.uniform(N) + 1;
+                int row = StdRandom.uniform(gridSize) + 1;
+                int col = StdRandom.uniform(gridSize) + 1;
                 if (!percolation.isOpen(row, col)) {
                     percolation.open(row, col);
                     openSites++;
                 }
             }
 
-            percolationThresholds[i] = openSites / (N * N);
+            percolationThresholds[i] = openSites / (gridSize * gridSize);
         }
     }
 
@@ -54,6 +59,22 @@ public class PercolationStats
     }
 
     /**
+     * Return the lower bound of the 95% confidence interval
+     */
+    public double confidenceLo()
+    {
+        return mean() - (1.96 *  stddev() / Math.sqrt(numberOfExperiments));
+    }
+
+    /**
+     * Return the upper bound of the 95% confidence interval
+     */
+    public double confidenceHi()
+    {
+       return mean() + (1.96 *  stddev() / Math.sqrt(numberOfExperiments));
+    }
+
+    /**
      * Main entry point for the simulation.
      */
     public static void main(String[] args)
@@ -64,9 +85,6 @@ public class PercolationStats
 
         System.out.println("Mean                    = " + stats.mean());
         System.out.println("Stddev                  = " + stats.stddev());
-
-        double from = stats.mean() - (1.96 *  stats.stddev() / Math.sqrt(T));
-        double to = stats.mean() + (1.96 *  stats.stddev() / Math.sqrt(T));
-        System.out.println("95% confidence interval = " + from + ", " + to);
+        System.out.println("95% confidence interval = " + stats.confidenceLo() + ", " + stats.confidenceHi());
     }
 }
