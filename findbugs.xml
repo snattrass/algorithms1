@@ -17,10 +17,9 @@
                          SBSC_USE_STRINGBUFFER_CONCATENATION,
                          SE_COMPARATOR_SHOULD_BE_SERIALIZABLE,
                          SE_BAD_FIELD,
-                         SIC_INNER_SHOULD_BE_STATIC,
-                         IT_NO_SUCH_ELEMENT,
-                         EQ_COMPARETO_USE_OBJECT_EQUALS,
                          VA_FORMAT_STRING_USES_NEWLINE,
+                         SIC_INNER_SHOULD_BE_STATIC,
+                         EQ_COMPARETO_USE_OBJECT_EQUALS,
                          HE_EQUALS_USE_HASHCODE,
                          HE_EQUALS_NO_HASHCODE" />
      </Match>
