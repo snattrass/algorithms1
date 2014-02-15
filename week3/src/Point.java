@@ -53,7 +53,7 @@ public class Point implements Comparable<Point> {
             return Double.NEGATIVE_INFINITY;
         }
 
-        return (double)(that.y - this.y) / (double)(that.x - this.x);
+        return (double) (that.y - this.y) / (double) (that.x - this.x);
     }
 
     // is this point lexicographically smaller than that point?

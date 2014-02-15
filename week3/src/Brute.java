@@ -83,11 +83,7 @@ public class Brute
          */
         public boolean isCollinear()
         {
-//            double slopePtoQ = p.slopeTo(q);
-//            double slopePtoR = p.slopeTo(r);
-//            double slopePtoS = p.slopeTo(s);
-
-            return ( p.slopeTo(q) == p.slopeTo(r) && p.slopeTo(r) == p.slopeTo(s) );
+            return (p.slopeTo(q) == p.slopeTo(r) && p.slopeTo(r) == p.slopeTo(s));
         }
 
         public void drawSegment()

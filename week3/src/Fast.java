@@ -41,7 +41,7 @@ public class Fast
                 Point r = pointsSortedInSlopOrder[j + 1];
                 Point s = pointsSortedInSlopOrder[j + 2];
 
-                FourTuple tuple = new FourTuple(p, q,r, s);
+                FourTuple tuple = new FourTuple(p, q, r, s);
                 if (tuple.isCollinear()) {
                     StdOut.println(tuple);
                     tuple.drawSegment();
@@ -91,7 +91,7 @@ public class Fast
          */
         public boolean isCollinear()
         {
-            return ( p.slopeTo(q) == p.slopeTo(r) && p.slopeTo(r) == p.slopeTo(s) );
+            return (p.slopeTo(q) == p.slopeTo(r) && p.slopeTo(r) == p.slopeTo(s));
         }
 
         public void drawSegment()
