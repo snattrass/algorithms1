@@ -9,7 +9,16 @@ public class Brute
         StdDraw.show(0);
     }
 
-    public void processPoints(Point[] points)
+    public static void main(String[] args)
+    {
+        Brute brute = new Brute();
+
+        String fileName = args[0];
+        Point[] points = brute.readFile(new In(fileName));
+        brute.processPoints(points);
+    }
+
+    private void processPoints(Point[] points)
     {
         Arrays.sort(points);
 
@@ -33,15 +42,6 @@ public class Brute
             StdDraw.show(0);
         }
 
-    }
-
-    public static void main(String[] args)
-    {
-        Brute brute = new Brute();
-
-        String fileName = args[0];
-        Point[] points = brute.readFile(new In(fileName));
-        brute.processPoints(points);
     }
 
     private Point[] readFile(In inputFile)

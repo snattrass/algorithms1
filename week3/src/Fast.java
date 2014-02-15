@@ -9,7 +9,16 @@ public class Fast
         StdDraw.show(0);
     }
 
-    public void processPoints(Point[] points)
+    public static void main(String[] args)
+    {
+        Fast fast = new Fast();
+
+        String fileName = args[0];
+        Point[] points = fast.readFile(new In(fileName));
+        fast.processPoints(points);
+    }
+
+    private void processPoints(Point[] points)
     {
         int N = points.length;
 
@@ -41,15 +50,6 @@ public class Fast
         }
         StdDraw.show(0);
 
-    }
-
-    public static void main(String[] args)
-    {
-        Fast fast = new Fast();
-
-        String fileName = args[0];
-        Point[] points = fast.readFile(new In(fileName));
-        fast.processPoints(points);
     }
 
     private Point[] readFile(In inputFile)
