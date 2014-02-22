@@ -18,9 +18,15 @@ public class Board
     {
         int hamming = 0;
 
+        int tileValue;
         for (int i = 0 ; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                if (tiles[i][j] != correctValue(i, j)) {
+                tileValue = tiles[i][j];
+                if (tileValue == 0) {
+                    continue;
+                }
+
+                if (tileValue != correctValueAt(i, j)) {
                     hamming++;
                 }
             }
@@ -31,7 +37,20 @@ public class Board
 
     public int manhattan()                 // sum of Manhattan distances between blocks and goal
     {
+        int distance = 0;
 
+        int tileValue = 0;
+        for (int i = 0 ; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                tileValue = tiles[i][j];
+                if (tileValue == 0) {
+                    continue;
+                }
+                distance += correctionDistance(tileValue);
+            }
+        }
+
+        return distance;
     }
 
     public boolean isGoal()                // is this board the goal board?
@@ -60,7 +79,6 @@ public class Board
 
     public boolean equals(Object y)        // does this board equal y?
     {
-
     }
 
     public Iterable<Board> neighbors()     // all neighboring boards
@@ -85,8 +103,23 @@ public class Board
     /**
      * Return the correct value for row i, column j
      */
-    private int correctValue(int i, int j)
+    private int correctValueAt(int i, int j)
     {
         return (i * N) + j + 1;
+    }
+
+    private int correctionDistance(int value)
+    {
+        int distance = 0;
+
+        while (value > N) {
+            value -= N;
+            distance++;
+
+        }
+
+        distance += value;
+
+        return distance;
     }
 }
