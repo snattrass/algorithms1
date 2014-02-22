@@ -55,21 +55,7 @@ public class Board
 
     public boolean isGoal()                // is this board the goal board?
     {
-        int goal[][] = new int[N][N];
-
-        int tileValue = 1;
-        for (int i = 0 ; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                if (i == (N - 1) && j == (N - 1)) {
-                    goal[i][j] = 0;
-                }
-                else {
-                    goal[i][j] = tileValue++;
-                }
-            }
-        }
-
-        return this.equals(new Board(goal));
+        return hamming() == 0;
     }
 
     public Board twin()                    // a board obtained by exchanging two adjacent blocks in the same row
