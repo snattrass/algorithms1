@@ -11,12 +11,22 @@ public class Board
 
     public int dimension()                 // board dimension N
     {
-
+        return N;
     }
 
     public int hamming()                   // number of blocks out of place
     {
+        int hamming = 0;
 
+        for (int i = 0 ; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (tiles[i][j] != correctValue(i, j)) {
+                    hamming++;
+                }
+            }
+        }
+
+        return hamming;
     }
 
     public int manhattan()                 // sum of Manhattan distances between blocks and goal
@@ -56,5 +66,13 @@ public class Board
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Return the correct value for row i, column j
+     */
+    private int correctValue(int i, int j)
+    {
+        return (i * N) + j + 1;
     }
 }
