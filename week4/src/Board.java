@@ -1,9 +1,12 @@
 public class Board
 {
-    public Board(int[][] blocks)            // construct a board from an N-by-N array of blocks
+    int N = 0;
+    int tiles[][];
+
+    public Board(int[][] tiles)            // construct a board from an N-by-N array of blocks
                                             // (where blocks[i][j] = block in row i, column j)
     {
-
+        this.tiles = tiles;
     }
 
     public int dimension()                 // board dimension N
@@ -41,8 +44,17 @@ public class Board
 
     }
 
-    public String toString()               // string representation of the board (in the output format specified below)
+    public String toString()
     {
+        StringBuilder sb = new StringBuilder();
+        sb.append(N + "\n");
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                sb.append(String.format("%2d ", tiles[i][j]));
+            }
+            sb.append("\n");
+        }
 
+        return sb.toString();
     }
 }
