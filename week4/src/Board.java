@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Board
 {
     int N = 0;
@@ -69,7 +72,76 @@ public class Board
 
     public Iterable<Board> neighbors()     // all neighboring boards
     {
+        List<Board> neighbors = new ArrayList<Board>();
 
+        int i = 0;
+        int j = 0;
+        findEmptyTile:
+        for (; i < N; i++){
+            for (; j < N; j++) {
+                if (isEmptyTile(i, j)) {
+                    break findEmptyTile;
+                }
+            }
+        }
+
+        if (i > 0) {    // there is a tile above, move it down
+            int nTiles[][] = tiles.clone();
+            moveTileDown(nTiles, i, j);
+            neighbors.add(new Board(nTiles));
+        }
+
+        if (j > 0) {    // there is a tile to the left, move it right
+            int nTiles[][] = tiles.clone();
+            moveTileRight(nTiles, i, j);
+            neighbors.add(new Board(nTiles));
+        }
+
+        if (j < N - 1) {    // there is a tile to the right, move it left
+            int nTiles[][] = tiles.clone();
+            moveTileLeft(nTiles, i, j);
+            neighbors.add(new Board(nTiles));
+        }
+
+        if (i < N - 1) {    // there is a tile below, move it up
+            int nTiles[][] = tiles.clone();
+            moveTileUp(nTiles, i, j);
+            neighbors.add(new Board(nTiles));
+        }
+
+        return neighbors;
+    }
+
+
+    private boolean isEmptyTile(int i, int j)
+    {
+        return tiles[i][j] == 0;
+    }
+
+    private void moveTileDown(int t[][], int i, int j)
+    {
+        exchangeEmpty(t, i, j, i - 1, j);
+    }
+
+    private void moveTileUp(int t[][], int i, int j)
+    {
+        exchangeEmpty(t, i, j, i + 1, j);
+    }
+
+    private void moveTileLeft(int t[][], int i, int j)
+    {
+        exchangeEmpty(t, i, j, i, j - 1);
+    }
+
+    private void moveTileRight(int t[][], int i, int j)
+    {
+        exchangeEmpty(t, i, j, i, j + 1);
+    }
+
+    private void exchangeEmpty(int t[][], int fromRow, int fromColumn, int toRow, int toColumn)
+    {
+        t[fromRow][fromColumn] = t[toRow][toColumn];
+        t[toColumn][toColumn] = 0;
     }
 
     public String toString()
