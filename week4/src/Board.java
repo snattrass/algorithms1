@@ -65,6 +65,19 @@ public class Board
 
     public boolean equals(Object y)        // does this board equal y?
     {
+        if (y == this) {
+            return true;
+        }
+        if (null == y) {
+            return false;
+        }
+
+        if (y.getClass() != this.getClass()) {
+            return false;
+        }
+
+        Board that = (Board)y;
+        return (this.N == that.N) && (this.tiles == that.tiles);
     }
 
     public Iterable<Board> neighbors()     // all neighboring boards
