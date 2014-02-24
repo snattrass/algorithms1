@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class Board
 {
     int N = 0;
@@ -72,7 +69,7 @@ public class Board
 
     public Iterable<Board> neighbors()     // all neighboring boards
     {
-        List<Board> neighbors = new ArrayList<Board>();
+        Stack<Board> neighbors = new Stack<Board>();
 
         int i = 0;
         int j = 0;
@@ -88,25 +85,25 @@ public class Board
         if (i > 0) {    // there is a tile above, move it down
             int nTiles[][] = tiles.clone();
             moveTileDown(nTiles, i, j);
-            neighbors.add(new Board(nTiles));
+            neighbors.push(new Board(nTiles));
         }
 
         if (j > 0) {    // there is a tile to the left, move it right
             int nTiles[][] = tiles.clone();
             moveTileRight(nTiles, i, j);
-            neighbors.add(new Board(nTiles));
+            neighbors.push(new Board(nTiles));
         }
 
         if (j < N - 1) {    // there is a tile to the right, move it left
             int nTiles[][] = tiles.clone();
             moveTileLeft(nTiles, i, j);
-            neighbors.add(new Board(nTiles));
+            neighbors.push(new Board(nTiles));
         }
 
         if (i < N - 1) {    // there is a tile below, move it up
             int nTiles[][] = tiles.clone();
             moveTileUp(nTiles, i, j);
-            neighbors.add(new Board(nTiles));
+            neighbors.push(new Board(nTiles));
         }
 
         return neighbors;
