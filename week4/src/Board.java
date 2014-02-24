@@ -60,7 +60,18 @@ public class Board
 
     public Board twin()                    // a board obtained by exchanging two adjacent blocks in the same row
     {
+        int row = StdRandom.uniform(N);
+        int column = StdRandom.uniform(N - 1);
 
+        int twinTiles[][] = tiles.clone();
+
+
+        // exchange
+        int temp = twinTiles[row][column];
+        twinTiles[row][column] = twinTiles[row][column + 1];
+        twinTiles[row][column + 1] = temp;
+
+        return new Board(twinTiles);
     }
 
     public boolean equals(Object y)        // does this board equal y?
