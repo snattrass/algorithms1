@@ -16,7 +16,20 @@ public class Solver
 
     public int moves()                      // min number of moves to solve initial board; -1 if no solution
     {
+        if (!isSolvable()) {
+            return -1;
+        }
 
+        while (true) {
+            SearchNode node = (SearchNode)minPQ.delMin();
+            if (node.board.isGoal()) {
+                return node.moves;
+            }
+
+            for (Board board : node.board.neighbors()) {
+                minPQ.insert(new SearchNode(board, ++node.moves, node));
+            }
+        }
     }
 
     public Iterable<Board> solution()       // sequence of boards in a shortest solution; null if no solution
