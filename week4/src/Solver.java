@@ -1,8 +1,12 @@
 public class Solver
 {
+    private MinPQ minPQ = new MinPQ();
+
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
     {
 
+        SearchNode node = new SearchNode(initial, 0, null);
+        minPQ.insert(node);
     }
 
     public boolean isSolvable()             // is the initial board solvable?
@@ -41,6 +45,20 @@ public class Solver
             StdOut.println("Minimum number of moves = " + solver.moves());
             for (Board board : solver.solution())
                 StdOut.println(board);
+        }
+    }
+
+    private class SearchNode
+    {
+        private Board board = null;
+        private int moves = 0;
+        private SearchNode previous = null;
+
+        public SearchNode(Board board, int moves, SearchNode previous)
+        {
+            this.board = board;
+            this.moves = moves;
+            this.previous = previous;
         }
     }
 }
