@@ -74,12 +74,14 @@ public class Solver
         private Board board = null;
         private int moves = 0;
         private SearchNode previous = null;
+        private int priority = 0;
 
         public SearchNode(Board board, int moves, SearchNode previous)
         {
             this.board = board;
             this.moves = moves;
             this.previous = previous;
+            priority = board.manhattan() + moves;
         }
     }
 }
