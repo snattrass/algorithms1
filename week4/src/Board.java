@@ -64,8 +64,8 @@ public class Board
         int row = StdRandom.uniform(N);
         int column = StdRandom.uniform(N - 1);
 
-        int twinTiles[][] = tiles.clone();
-
+        System.out.println("Random row chosen: " + row + " and random column: " + column);
+        int twinTiles[][] = deepArrayClone(tiles);
 
         // exchange
         int temp = twinTiles[row][column];
@@ -102,31 +102,32 @@ public class Board
         for (; i < N; i++){
             for (; j < N; j++) {
                 if (isEmptyTile(i, j)) {
+                    System.out.println("Found the empty tile is at row: " + i + ", column: " + j);
                     break findEmptyTile;
                 }
             }
         }
 
         if (i > 0) {    // there is a tile above, move it down
-            int nTiles[][] = tiles.clone();
+            int nTiles[][] = deepArrayClone(tiles);
             moveTileDown(nTiles, i, j);
             neighbors.push(new Board(nTiles));
         }
 
         if (j > 0) {    // there is a tile to the left, move it right
-            int nTiles[][] = tiles.clone();
+            int nTiles[][] = deepArrayClone(tiles);
             moveTileRight(nTiles, i, j);
             neighbors.push(new Board(nTiles));
         }
 
         if (j < N - 1) {    // there is a tile to the right, move it left
-            int nTiles[][] = tiles.clone();
+            int nTiles[][] = deepArrayClone(tiles);
             moveTileLeft(nTiles, i, j);
             neighbors.push(new Board(nTiles));
         }
 
         if (i < N - 1) {    // there is a tile below, move it up
-            int nTiles[][] = tiles.clone();
+            int nTiles[][] = deepArrayClone(tiles);
             moveTileUp(nTiles, i, j);
             neighbors.push(new Board(nTiles));
         }
@@ -142,21 +143,25 @@ public class Board
 
     private void moveTileDown(int t[][], int i, int j)
     {
+        System.out.println("Moving tile down");
         exchangeEmpty(t, i, j, i - 1, j);
     }
 
     private void moveTileUp(int t[][], int i, int j)
     {
+        System.out.println("Moving tile up");
         exchangeEmpty(t, i, j, i + 1, j);
     }
 
     private void moveTileLeft(int t[][], int i, int j)
     {
+        System.out.println("Moving tile left");
         exchangeEmpty(t, i, j, i, j - 1);
     }
 
     private void moveTileRight(int t[][], int i, int j)
     {
+        System.out.println("Moving tile right");
         exchangeEmpty(t, i, j, i, j + 1);
     }
 
@@ -178,6 +183,23 @@ public class Board
         }
 
         return sb.toString();
+    }
+
+    /**
+     * Return a deep clone of the 2D array
+     */
+    private static int[][] deepArrayClone(int[][] original)
+    {
+        if (null == original) {
+            return null;
+        }
+
+        int[][] copy = new int[original.length][];
+        for (int i = 0; i < original.length; i++) {
+            copy[i] = original[i].clone();
+        }
+
+        return copy;
     }
 
     /**
