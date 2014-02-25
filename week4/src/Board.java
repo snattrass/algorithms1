@@ -103,33 +103,32 @@ public class Board
             for (; j < N; j++) {
                 if (isEmptyTile(i, j)) {
                     System.out.println("Found the empty tile is at row: " + i + ", column: " + j);
-                    break findEmptyTile;
+
+                    if (i > 0) {    // there is a tile above, move it down
+                        int nTiles[][] = deepArrayClone(tiles);
+                        moveTileDown(nTiles, i, j);
+                        neighbors.push(new Board(nTiles));
+                    }
+
+                    if (j > 0) {    // there is a tile to the left, move it right
+                        int nTiles[][] = deepArrayClone(tiles);
+                        moveTileRight(nTiles, i, j);
+                        neighbors.push(new Board(nTiles));
+                    }
+
+                    if (j < N - 1) {    // there is a tile to the right, move it left
+                        int nTiles[][] = deepArrayClone(tiles);
+                        moveTileLeft(nTiles, i, j);
+                        neighbors.push(new Board(nTiles));
+                    }
+
+                    if (i < N - 1) {    // there is a tile below, move it up
+                        int nTiles[][] = deepArrayClone(tiles);
+                        moveTileUp(nTiles, i, j);
+                        neighbors.push(new Board(nTiles));
+                    }
                 }
             }
-        }
-
-        if (i > 0) {    // there is a tile above, move it down
-            int nTiles[][] = deepArrayClone(tiles);
-            moveTileDown(nTiles, i, j);
-            neighbors.push(new Board(nTiles));
-        }
-
-        if (j > 0) {    // there is a tile to the left, move it right
-            int nTiles[][] = deepArrayClone(tiles);
-            moveTileRight(nTiles, i, j);
-            neighbors.push(new Board(nTiles));
-        }
-
-        if (j < N - 1) {    // there is a tile to the right, move it left
-            int nTiles[][] = deepArrayClone(tiles);
-            moveTileLeft(nTiles, i, j);
-            neighbors.push(new Board(nTiles));
-        }
-
-        if (i < N - 1) {    // there is a tile below, move it up
-            int nTiles[][] = deepArrayClone(tiles);
-            moveTileUp(nTiles, i, j);
-            neighbors.push(new Board(nTiles));
         }
 
         return neighbors;
@@ -143,26 +142,30 @@ public class Board
 
     private void moveTileDown(int t[][], int i, int j)
     {
-        System.out.println("Moving tile down");
+        //System.out.println("Moving tile down, i: " + i + " and j: " + j);
+        //System.out.println("Moving tile [" + tiles[i - 1][j] + "] down");
         exchangeEmpty(t, i, j, i - 1, j);
     }
 
     private void moveTileUp(int t[][], int i, int j)
     {
-        System.out.println("Moving tile up");
+        //System.out.println("Moving tile up, i: " + i + " and j: " + j);
+        //System.out.println("Moving tile [" + tiles[i + 1][j] + "] up");
         exchangeEmpty(t, i, j, i + 1, j);
     }
 
     private void moveTileLeft(int t[][], int i, int j)
     {
-        System.out.println("Moving tile left");
-        exchangeEmpty(t, i, j, i, j - 1);
+        //System.out.println("Moving tile left, i: " + i + " and j: " + j);
+        //System.out.println("Moving tile [" + tiles[i][j + 1] + "] left");
+        exchangeEmpty(t, i, j, i, j + 1);
     }
 
     private void moveTileRight(int t[][], int i, int j)
     {
-        System.out.println("Moving tile right");
-        exchangeEmpty(t, i, j, i, j + 1);
+        //System.out.println("Moving tile right, i: " + i + " and j: " + j);
+        //System.out.println("Moving tile [" + tiles[i][j - 1] + "] right");
+        exchangeEmpty(t, i, j, i, j - 1);
     }
 
     private void exchangeEmpty(int t[][], int fromRow, int fromColumn, int toRow, int toColumn)
