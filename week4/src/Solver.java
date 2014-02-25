@@ -1,12 +1,12 @@
 public class Solver
 {
-    private MinPQ minPQ = new MinPQ();
+    private MinPQ<SearchNode> minPQ = new MinPQ<SearchNode>();
+    private MinPQ<SearchNode> twinPQ = new MinPQ<SearchNode>();
 
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
     {
-
-        SearchNode node = new SearchNode(initial, 0, null);
-        minPQ.insert(node);
+        minPQ.insert(new SearchNode(initial, 0, null));
+        twinPQ.insert(new SearchNode(initial.twin(), 0, null));
     }
 
     public boolean isSolvable()             // is the initial board solvable?
