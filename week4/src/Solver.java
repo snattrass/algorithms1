@@ -3,6 +3,7 @@ public class Solver
     private MinPQ<SearchNode> minPQ = new MinPQ<SearchNode>();
     private MinPQ<SearchNode> twinPQ = new MinPQ<SearchNode>();
     private boolean isSolvable;
+    private SearchNode goalNode = null;
 
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
     {
@@ -22,24 +23,16 @@ public class Solver
             return -1;
         }
 
-        while (true) {
-            SearchNode node = (SearchNode)minPQ.delMin();
-            if (node.board.isGoal()) {
-                return node.moves;
-            }
-
-            for (Board board : node.board.neighbors()) {
-                minPQ.insert(new SearchNode(board, ++node.moves, node));
-            }
-        }
+        return goalNode.moves;
     }
 
     public Iterable<Board> solution()       // sequence of boards in a shortest solution; null if no solution
     {
         Stack<Board> solutionSequence = new Stack<Board>();
         solutionSequence.push(goalNode.board);
+
         SearchNode node = goalNode;
-        while (node.previous != null)
+        while (null != node.previous)
         {
             solutionSequence.push(node.previous.board);
         }
@@ -84,6 +77,7 @@ public class Solver
             }
 
             if (node.board.isGoal()) {
+                goalNode = node;
                 isSolvable = true;
                 break;
             }
