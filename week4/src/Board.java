@@ -7,6 +7,7 @@ public class Board
                                             // (where blocks[i][j] = block in row i, column j)
     {
         this.tiles = tiles;
+        this.N = tiles.length;
     }
 
     public int dimension()                 // board dimension N
