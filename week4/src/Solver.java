@@ -2,16 +2,18 @@ public class Solver
 {
     private MinPQ<SearchNode> minPQ = new MinPQ<SearchNode>();
     private MinPQ<SearchNode> twinPQ = new MinPQ<SearchNode>();
+    private boolean isSolvable;
 
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
     {
         minPQ.insert(new SearchNode(initial, 0, null));
         twinPQ.insert(new SearchNode(initial.twin(), 0, null));
+        solve();
     }
 
     public boolean isSolvable()             // is the initial board solvable?
     {
-
+        return isSolvable;
     }
 
     public int moves()                      // min number of moves to solve initial board; -1 if no solution
@@ -67,6 +69,53 @@ public class Solver
             for (Board board : solver.solution())
                 StdOut.println(board);
         }
+    }
+
+    private boolean solve()
+    {
+        SearchNode node;
+        while (queuedNodesExist()) {
+            node = minPQ.delMin();
+
+            for (Board board : node.board.neighbors()) {
+                if (isNeighborAllowed(node, board)) {
+                    minPQ.insert(new SearchNode(board, ++node.moves, node));
+                }
+            }
+
+            if (node.board.isGoal()) {
+                isSolvable = true;
+                break;
+            }
+
+            node = twinPQ.delMin();
+            for (Board board : node.board.neighbors()) {
+                if (isNeighborAllowed(node, board)) {
+                    twinPQ.insert(new SearchNode(board, ++node.moves, node));
+                }
+            }
+
+            if (node.board.isGoal()) {
+                isSolvable = false;
+                break;
+            }
+        }
+
+        return isSolvable;
+    }
+
+    private boolean queuedNodesExist()
+    {
+        return !(minPQ.isEmpty()) && !(twinPQ.isEmpty());
+    }
+
+    private boolean isNeighborAllowed(SearchNode node, Board neighborBoard)
+    {
+        if (null != node.previous) {
+            return !(neighborBoard.equals(node.previous.board));
+        }
+
+        return true;
     }
 
     private class SearchNode implements Comparable<SearchNode>
