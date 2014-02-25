@@ -69,7 +69,7 @@ public class Solver
         }
     }
 
-    private class SearchNode
+    private class SearchNode implements Comparable<SearchNode>
     {
         private Board board = null;
         private int moves = 0;
@@ -82,6 +82,18 @@ public class Solver
             this.moves = moves;
             this.previous = previous;
             priority = board.manhattan() + moves;
+        }
+
+        @Override
+        public int compareTo(SearchNode that)
+        {
+            if (this.priority > that.priority) {
+                return 1;
+            }
+            if (this.priority < that.priority) {
+                return -1;
+            }
+            return 0;
         }
     }
 }
