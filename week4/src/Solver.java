@@ -2,7 +2,6 @@ public class Solver
 {
     private MinPQ<SearchNode> minPQ = new MinPQ<SearchNode>();
     private MinPQ<SearchNode> twinPQ = new MinPQ<SearchNode>();
-    private boolean isSolvable;
     private SearchNode goalNode = null;
 
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
@@ -14,12 +13,12 @@ public class Solver
 
         minPQ.insert(new SearchNode(initial, null));
         twinPQ.insert(new SearchNode(twin, null));
-        solve();
+        goalNode = solve();
     }
 
     public boolean isSolvable()             // is the initial board solvable?
     {
-        return isSolvable;
+        return (null != goalNode);
     }
 
     public int moves()                      // min number of moves to solve initial board; -1 if no solution
@@ -69,41 +68,38 @@ public class Solver
         }
     }
 
-    private boolean solve()
+    private SearchNode solve()
     {
         SearchNode node;
         while (queuedNodesExist()) {
-            node = minPQ.delMin();
 
-            for (Board board : node.board.neighbors()) {
-                if (isNeighborAllowed(node, board)) {
-                    System.out.println("inserting neighbour \n" + board);
-                    minPQ.insert(new SearchNode(board, node));
-                }
-            }
-
+            node = foo(minPQ);
             if (node.board.isGoal()) {
-                goalNode = node;
-                isSolvable = true;
-                break;
+                return node;
             }
 
-            node = twinPQ.delMin();
-            for (Board board : node.board.neighbors()) {
-                if (isNeighborAllowed(node, board)) {
-                    twinPQ.insert(new SearchNode(board, node));
-                }
-            }
-
+            node = foo(twinPQ);
             if (node.board.isGoal()) {
-                isSolvable = false;
-                break;
+                return null;
             }
         }
 
-        return isSolvable;
+        return null;
     }
 
+    private SearchNode foo(MinPQ<SearchNode> pq)
+    {
+        SearchNode node = pq.delMin();
+
+        for (Board neighbor : node.board.neighbors()) {
+            if (isNeighborAllowed(node, neighbor)) {
+                System.out.println("inserting neighbour \n" + neighbor);
+                pq.insert(new SearchNode(neighbor, node));
+            }
+        }
+
+        return node;
+    }
     private boolean queuedNodesExist()
     {
         return !(minPQ.isEmpty()) && !(twinPQ.isEmpty());
