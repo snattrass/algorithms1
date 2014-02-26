@@ -6,7 +6,7 @@ public class Board
     public Board(int[][] tiles)            // construct a board from an N-by-N array of blocks
                                             // (where blocks[i][j] = block in row i, column j)
     {
-        this.tiles = tiles;
+        this.tiles = deepArrayClone(tiles);
         this.N = tiles.length;
     }
 
