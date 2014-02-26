@@ -47,7 +47,8 @@ public class Board
                 if (tileValue == 0) {
                     continue;
                 }
-                distance += correctionDistance(tileValue);
+
+                distance += correctionDistance(i, j);
             }
         }
 
@@ -213,18 +214,12 @@ public class Board
         return (i * N) + j + 1;
     }
 
-    private int correctionDistance(int value)
+    private int correctionDistance(int row, int column)
     {
-        int distance = 0;
+        int value = tiles[row][column];
+        int goalRow = (value - 1) / N;
+        int goalColumn = (value - 1) % N;
 
-        while (value > N) {
-            value -= N;
-            distance++;
-
-        }
-
-        distance += value;
-
-        return distance;
+        return Math.abs(row - goalRow) + Math.abs(column - goalColumn);
     }
 }
