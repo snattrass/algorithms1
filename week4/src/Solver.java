@@ -6,13 +6,8 @@ public class Solver
 
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
     {
-        System.out.println("Initial board\n" + initial);
-        Board twin = initial.twin();
-
-        System.out.println("Twin board\n" + twin);
-
         minPQ.insert(new SearchNode(initial, null));
-        twinPQ.insert(new SearchNode(twin, null));
+        twinPQ.insert(new SearchNode(initial.twin(), null));
         goalNode = solve();
     }
 
@@ -69,12 +64,12 @@ public class Solver
         SearchNode node;
         while (queuedNodesExist()) {
 
-            node = foo(minPQ);
+            node = removeMinAndAddNeigbors(minPQ);
             if (node.board.isGoal()) {
                 return node;
             }
 
-            node = foo(twinPQ);
+            node = removeMinAndAddNeigbors(twinPQ);
             if (node.board.isGoal()) {
                 return null;
             }
@@ -83,19 +78,19 @@ public class Solver
         return null;
     }
 
-    private SearchNode foo(MinPQ<SearchNode> pq)
+    private SearchNode removeMinAndAddNeigbors(MinPQ<SearchNode> pq)
     {
         SearchNode node = pq.delMin();
 
         for (Board neighbor : node.board.neighbors()) {
             if (isNeighborAllowed(node, neighbor)) {
-                System.out.println("inserting neighbour \n" + neighbor);
                 pq.insert(new SearchNode(neighbor, node));
             }
         }
 
         return node;
     }
+
     private boolean queuedNodesExist()
     {
         return !(minPQ.isEmpty()) && !(twinPQ.isEmpty());
