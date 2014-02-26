@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Board
 {
     private int N = 0;
@@ -98,7 +100,17 @@ public class Board
         }
 
         Board that = (Board) y;
-        return (this.N == that.N) && (this.tiles == that.tiles);
+        if (this.N != that.N) {
+            return false;
+        }
+
+        for (int row = 0; row < N; row++) {
+            if (!Arrays.equals(this.tiles[row], that.tiles[row])) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public Iterable<Board> neighbors()     // all neighboring boards

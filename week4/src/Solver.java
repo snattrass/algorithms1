@@ -27,6 +27,10 @@ public class Solver
 
     public Iterable<Board> solution()       // sequence of boards in a shortest solution; null if no solution
     {
+        if (!isSolvable()) {
+            return null;
+        }
+
         Stack<Board> solutionSequence = new Stack<Board>();
         for (SearchNode node = goalNode; node != null; node = node.previous) {
             solutionSequence.push(node.board);
