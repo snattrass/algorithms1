@@ -20,14 +20,14 @@ public class Board
         int hamming = 0;
 
         int tileValue;
-        for (int i = 0 ; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                tileValue = tiles[i][j];
+        for (int row = 0 ; row < N; row++) {
+            for (int col = 0; col < N; col++) {
+                tileValue = tiles[row][col];
                 if (tileValue == 0) {
                     continue;
                 }
 
-                if (tileValue != correctValueAt(i, j)) {
+                if (tileValue != correctValueAt(row, col)) {
                     hamming++;
                 }
             }
@@ -41,14 +41,14 @@ public class Board
         int distance = 0;
 
         int tileValue = 0;
-        for (int i = 0 ; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                tileValue = tiles[i][j];
+        for (int row = 0 ; row < N; row++) {
+            for (int col = 0; col < N; col++) {
+                tileValue = tiles[row][col];
                 if (tileValue == 0) {
                     continue;
                 }
 
-                distance += correctionDistance(i, j);
+                distance += correctionDistance(row, col);
             }
         }
 
@@ -106,26 +106,26 @@ public class Board
         Stack<Board> neighbors = new Stack<Board>();
 
         findEmptyTile:
-        for (int i = 0; i < N; i++){
-            for (int j = 0; j < N; j++) {
-                if (isEmptyTile(i, j)) {
-                    if (i > 0) {    // there is a tile above, move it down
-                        int nTiles[][] = exchangeEmptyTile(i - 1, j, i, j);
+        for (int row = 0; row < N; row++){
+            for (int col = 0; col < N; col++) {
+                if (isEmptyTile(row, col)) {
+                    if (row > 0) {    // there is a tile above, move it down
+                        int nTiles[][] = exchangeEmptyTile(row - 1, col, row, col);
                         neighbors.push(new Board(nTiles));
                     }
 
-                    if (j > 0) {    // there is a tile to the left, move it right
-                        int nTiles[][] = exchangeEmptyTile(i, j - 1, i, j);
+                    if (col > 0) {    // there is a tile to the left, move it right
+                        int nTiles[][] = exchangeEmptyTile(row, col - 1, row, col);
                         neighbors.push(new Board(nTiles));
                     }
 
-                    if (j < N - 1) {    // there is a tile to the right, move it left
-                        int nTiles[][] = exchangeEmptyTile(i, j + 1, i, j);
+                    if (col < N - 1) {    // there is a tile to the right, move it left
+                        int nTiles[][] = exchangeEmptyTile(row, col + 1, row, col);
                         neighbors.push(new Board(nTiles));
                     }
 
-                    if (i < N - 1) {    // there is a tile below, move it up
-                        int nTiles[][] = exchangeEmptyTile(i + 1, j, i, j);
+                    if (row < N - 1) {    // there is a tile below, move it up
+                        int nTiles[][] = exchangeEmptyTile(row + 1, col, row, col);
                         neighbors.push(new Board(nTiles));
                     }
                 }
@@ -135,9 +135,9 @@ public class Board
         return neighbors;
     }
 
-    private boolean isEmptyTile(int i, int j)
+    private boolean isEmptyTile(int row, int col)
     {
-        return tiles[i][j] == 0;
+        return tiles[row][col] == 0;
     }
 
     private int[][] exchangeEmptyTile(int fromRow, int fromColumn, int toRow, int toColumn)
@@ -153,9 +153,9 @@ public class Board
     {
         StringBuilder sb = new StringBuilder();
         sb.append(N + "\n");
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                sb.append(String.format("%2d ", tiles[i][j]));
+        for (int row = 0; row < N; row++) {
+            for (int col = 0; col < N; col++) {
+                sb.append(String.format("%2d ", tiles[row][col]));
             }
             sb.append("\n");
         }
@@ -181,11 +181,11 @@ public class Board
     }
 
     /**
-     * Return the correct value for row i, column j
+     * Return the correct value for row, col
      */
-    private int correctValueAt(int i, int j)
+    private int correctValueAt(int row, int col)
     {
-        return (i * N) + j + 1;
+        return (row * N) + col + 1;
     }
 
     private int correctionDistance(int row, int column)
