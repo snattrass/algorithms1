@@ -62,15 +62,24 @@ public class Board
 
     public Board twin()                    // a board obtained by exchanging two adjacent blocks in the same row
     {
-        int row = StdRandom.uniform(N);
-        int column = StdRandom.uniform(N - 1);
-
         int twinTiles[][] = deepArrayClone(tiles);
 
+        // find the first row with no empty tile
+        int row = 0;
+        int col = 0;
+        findEmptyTile:
+        for (row = 0; row < N; row++) {
+            for (col = 0; col < N; col++) {
+                if (col < N - 1 && !isEmptyTile(row, col) && !isEmptyTile(row, col + 1)) {
+                    break findEmptyTile;
+                }
+            }
+        }
+
         // exchange
-        int temp = twinTiles[row][column];
-        twinTiles[row][column] = twinTiles[row][column + 1];
-        twinTiles[row][column + 1] = temp;
+        int temp = twinTiles[row][col];
+        twinTiles[row][col] = twinTiles[row][col + 1];
+        twinTiles[row][col + 1] = temp;
 
         return new Board(twinTiles);
     }
