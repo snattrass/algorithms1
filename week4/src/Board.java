@@ -97,11 +97,9 @@ public class Board
     {
         Stack<Board> neighbors = new Stack<Board>();
 
-        int i = 0;
-        int j = 0;
         findEmptyTile:
-        for (; i < N; i++){
-            for (; j < N; j++) {
+        for (int i = 0; i < N; i++){
+            for (int j = 0; j < N; j++) {
                 if (isEmptyTile(i, j)) {
                     System.out.println("Found the empty tile is at row: " + i + ", column: " + j);
 
@@ -145,34 +143,34 @@ public class Board
     {
         //System.out.println("Moving tile down, i: " + i + " and j: " + j);
         //System.out.println("Moving tile [" + tiles[i - 1][j] + "] down");
-        exchangeEmpty(t, i, j, i - 1, j);
+        exchangeEmpty(t, i - 1, j, i, j);
     }
 
     private void moveTileUp(int t[][], int i, int j)
     {
         //System.out.println("Moving tile up, i: " + i + " and j: " + j);
         //System.out.println("Moving tile [" + tiles[i + 1][j] + "] up");
-        exchangeEmpty(t, i, j, i + 1, j);
+        exchangeEmpty(t, i + 1, j, i, j);
     }
 
     private void moveTileLeft(int t[][], int i, int j)
     {
         //System.out.println("Moving tile left, i: " + i + " and j: " + j);
         //System.out.println("Moving tile [" + tiles[i][j + 1] + "] left");
-        exchangeEmpty(t, i, j, i, j + 1);
+        exchangeEmpty(t, i, j + 1, i, j);
     }
 
     private void moveTileRight(int t[][], int i, int j)
     {
         //System.out.println("Moving tile right, i: " + i + " and j: " + j);
         //System.out.println("Moving tile [" + tiles[i][j - 1] + "] right");
-        exchangeEmpty(t, i, j, i, j - 1);
+        exchangeEmpty(t, i, j - 1, i, j);
     }
 
     private void exchangeEmpty(int t[][], int fromRow, int fromColumn, int toRow, int toColumn)
     {
-        t[fromRow][fromColumn] = t[toRow][toColumn];
-        t[toColumn][toColumn] = 0;
+        t[toRow][toColumn] = t[fromRow][fromColumn];
+        t[fromRow][fromColumn] = 0;
     }
 
     public String toString()

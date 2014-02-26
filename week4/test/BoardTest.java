@@ -2,6 +2,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Set;
+
 
 public class BoardTest
 {
@@ -33,4 +35,24 @@ public class BoardTest
         Board goalBoard = new Board(goalTiles);
         Assert.assertTrue(goalBoard.isGoal());
     }
+
+    @Test
+    public void testNeighbors() throws Exception
+    {
+        int[][] sbTiles = {{8, 1, 3}, {4, 2, 0}, {7, 6, 5}};
+        Board searchBoard = new Board(sbTiles);
+
+        Stack<Board> neighbors = new Stack<Board>();
+
+        int[][] n1Tiles = {{8, 1, 0}, {4, 2, 3}, {7, 6, 5}};
+        neighbors.push(new Board(n1Tiles));
+        int[][] n2Tiles = {{8, 1, 3}, {4, 0, 2}, {7, 6, 5}};
+        neighbors.push(new Board(n2Tiles));
+        int[][] n3Tiles = {{8, 1, 3}, {4, 2, 5}, {7, 6, 0}};
+        neighbors.push(new Board(n3Tiles));
+
+        Assert.assertEquals(neighbors, searchBoard.neighbors());
+    }
+
+
 }
