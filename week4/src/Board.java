@@ -1,7 +1,7 @@
 public class Board
 {
-    int N = 0;
-    int tiles[][];
+    private int N = 0;
+    private int[][] tiles;
 
     public Board(int[][] tiles)            // construct a board from an N-by-N array of blocks
                                             // (where blocks[i][j] = block in row i, column j)
@@ -20,7 +20,7 @@ public class Board
         int hamming = 0;
 
         int tileValue;
-        for (int row = 0 ; row < N; row++) {
+        for (int row = 0; row < N; row++) {
             for (int col = 0; col < N; col++) {
                 tileValue = tiles[row][col];
                 if (tileValue == 0) {
@@ -41,7 +41,7 @@ public class Board
         int distance = 0;
 
         int tileValue = 0;
-        for (int row = 0 ; row < N; row++) {
+        for (int row = 0; row < N; row++) {
             for (int col = 0; col < N; col++) {
                 tileValue = tiles[row][col];
                 if (tileValue == 0) {
@@ -62,7 +62,7 @@ public class Board
 
     public Board twin()                    // a board obtained by exchanging two adjacent blocks in the same row
     {
-        int twinTiles[][] = deepArrayClone(tiles);
+        int[][] twinTiles = deepArrayClone(tiles);
 
         // find the first row with no empty tile
         int row = 0;
@@ -97,7 +97,7 @@ public class Board
             return false;
         }
 
-        Board that = (Board)y;
+        Board that = (Board) y;
         return (this.N == that.N) && (this.tiles == that.tiles);
     }
 
@@ -106,26 +106,26 @@ public class Board
         Stack<Board> neighbors = new Stack<Board>();
 
         findEmptyTile:
-        for (int row = 0; row < N; row++){
+        for (int row = 0; row < N; row++) {
             for (int col = 0; col < N; col++) {
                 if (isEmptyTile(row, col)) {
                     if (row > 0) {    // there is a tile above, move it down
-                        int nTiles[][] = exchangeEmptyTile(row - 1, col, row, col);
+                        int[][] nTiles = exchangeEmptyTile(row - 1, col, row, col);
                         neighbors.push(new Board(nTiles));
                     }
 
                     if (col > 0) {    // there is a tile to the left, move it right
-                        int nTiles[][] = exchangeEmptyTile(row, col - 1, row, col);
+                        int[][] nTiles = exchangeEmptyTile(row, col - 1, row, col);
                         neighbors.push(new Board(nTiles));
                     }
 
                     if (col < N - 1) {    // there is a tile to the right, move it left
-                        int nTiles[][] = exchangeEmptyTile(row, col + 1, row, col);
+                        int[][] nTiles = exchangeEmptyTile(row, col + 1, row, col);
                         neighbors.push(new Board(nTiles));
                     }
 
                     if (row < N - 1) {    // there is a tile below, move it up
-                        int nTiles[][] = exchangeEmptyTile(row + 1, col, row, col);
+                        int[][] nTiles = exchangeEmptyTile(row + 1, col, row, col);
                         neighbors.push(new Board(nTiles));
                     }
                 }
