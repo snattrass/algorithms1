@@ -2,8 +2,6 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Set;
-
 
 public class BoardTest
 {
