@@ -7,8 +7,13 @@ public class Solver
 
     public Solver(Board initial)            // find a solution to the initial board (using the A* algorithm)
     {
-        minPQ.insert(new SearchNode(initial, 0, null));
-        twinPQ.insert(new SearchNode(initial.twin(), 0, null));
+        System.out.println("Initial board\n" + initial);
+        Board twin = initial.twin();
+
+        System.out.println("Twin board\n" + twin);
+
+        minPQ.insert(new SearchNode(initial, null));
+        twinPQ.insert(new SearchNode(twin, null));
         solve();
     }
 
@@ -72,7 +77,8 @@ public class Solver
 
             for (Board board : node.board.neighbors()) {
                 if (isNeighborAllowed(node, board)) {
-                    minPQ.insert(new SearchNode(board, ++node.moves, node));
+                    System.out.println("inserting neighbour \n" + board);
+                    minPQ.insert(new SearchNode(board, node));
                 }
             }
 
@@ -85,7 +91,7 @@ public class Solver
             node = twinPQ.delMin();
             for (Board board : node.board.neighbors()) {
                 if (isNeighborAllowed(node, board)) {
-                    twinPQ.insert(new SearchNode(board, ++node.moves, node));
+                    twinPQ.insert(new SearchNode(board, node));
                 }
             }
 
@@ -119,24 +125,21 @@ public class Solver
         private SearchNode previous = null;
         private int priority = 0;
 
-        public SearchNode(Board board, int moves, SearchNode previous)
+        public SearchNode(Board board, SearchNode previous)
         {
             this.board = board;
-            this.moves = moves;
             this.previous = previous;
+
+            if (null != previous) {
+                moves = previous.moves + 1;
+            }
             priority = board.manhattan() + moves;
         }
 
         @Override
         public int compareTo(SearchNode that)
         {
-            if (this.priority > that.priority) {
-                return 1;
-            }
-            if (this.priority < that.priority) {
-                return -1;
-            }
-            return 0;
+            return this.priority - that.priority;
         }
     }
 }
