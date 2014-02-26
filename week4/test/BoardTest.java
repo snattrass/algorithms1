@@ -29,5 +29,8 @@ public class BoardTest
     @Test
     public void testIsGoal() throws Exception
     {
+        int[][] goalTiles = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
+        Board goalBoard = new Board(goalTiles);
+        Assert.assertTrue(goalBoard.isGoal());
     }
 }

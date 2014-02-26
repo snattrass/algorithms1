@@ -57,7 +57,7 @@ public class Board
 
     public boolean isGoal()                // is this board the goal board?
     {
-        return hamming() == 0;
+        return (hamming() == 0) && (manhattan() == 0);
     }
 
     public Board twin()                    // a board obtained by exchanging two adjacent blocks in the same row
