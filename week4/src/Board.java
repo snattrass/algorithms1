@@ -154,7 +154,7 @@ public class Board
 
     private int[][] exchangeEmptyTile(int fromRow, int fromColumn, int toRow, int toColumn)
     {
-        int copy[][] = deepArrayClone(tiles);
+        int[][] copy = deepArrayClone(tiles);
         copy[toRow][toColumn] = copy[fromRow][fromColumn];
         copy[fromRow][fromColumn] = 0;
 
