@@ -1,23 +1,20 @@
 import org.junit.Test;
 
-/**
- * Squidstorm Solutions
- * <p/>
- * Create by Simon Nattrass on 25/02/2014 at 22:37
- */
-public class BoardTest {
-    @Test
-    public void testHamming() throws Exception {
 
+public class BoardTest
+{
+    @Test
+    public void testHamming() throws Exception
+    {
     }
 
     @Test
-    public void testManhattan() throws Exception {
-
+    public void testManhattan() throws Exception
+    {
     }
 
     @Test
-    public void testIsGoal() throws Exception {
-
+    public void testIsGoal() throws Exception
+    {
     }
 }
