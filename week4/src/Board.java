@@ -109,28 +109,23 @@ public class Board
         for (int i = 0; i < N; i++){
             for (int j = 0; j < N; j++) {
                 if (isEmptyTile(i, j)) {
-
                     if (i > 0) {    // there is a tile above, move it down
-                        int nTiles[][] = deepArrayClone(tiles);
-                        moveTileDown(nTiles, i, j);
+                        int nTiles[][] = exchangeEmptyTile(i - 1, j, i, j);
                         neighbors.push(new Board(nTiles));
                     }
 
                     if (j > 0) {    // there is a tile to the left, move it right
-                        int nTiles[][] = deepArrayClone(tiles);
-                        moveTileRight(nTiles, i, j);
+                        int nTiles[][] = exchangeEmptyTile(i, j - 1, i, j);
                         neighbors.push(new Board(nTiles));
                     }
 
                     if (j < N - 1) {    // there is a tile to the right, move it left
-                        int nTiles[][] = deepArrayClone(tiles);
-                        moveTileLeft(nTiles, i, j);
+                        int nTiles[][] = exchangeEmptyTile(i, j + 1, i, j);
                         neighbors.push(new Board(nTiles));
                     }
 
                     if (i < N - 1) {    // there is a tile below, move it up
-                        int nTiles[][] = deepArrayClone(tiles);
-                        moveTileUp(nTiles, i, j);
+                        int nTiles[][] = exchangeEmptyTile(i + 1, j, i, j);
                         neighbors.push(new Board(nTiles));
                     }
                 }
@@ -140,36 +135,18 @@ public class Board
         return neighbors;
     }
 
-
     private boolean isEmptyTile(int i, int j)
     {
         return tiles[i][j] == 0;
     }
 
-    private void moveTileDown(int t[][], int i, int j)
+    private int[][] exchangeEmptyTile(int fromRow, int fromColumn, int toRow, int toColumn)
     {
-        exchangeEmpty(t, i - 1, j, i, j);
-    }
+        int copy[][] = deepArrayClone(tiles);
+        copy[toRow][toColumn] = copy[fromRow][fromColumn];
+        copy[fromRow][fromColumn] = 0;
 
-    private void moveTileUp(int t[][], int i, int j)
-    {
-        exchangeEmpty(t, i + 1, j, i, j);
-    }
-
-    private void moveTileLeft(int t[][], int i, int j)
-    {
-        exchangeEmpty(t, i, j + 1, i, j);
-    }
-
-    private void moveTileRight(int t[][], int i, int j)
-    {
-        exchangeEmpty(t, i, j - 1, i, j);
-    }
-
-    private void exchangeEmpty(int t[][], int fromRow, int fromColumn, int toRow, int toColumn)
-    {
-        t[toRow][toColumn] = t[fromRow][fromColumn];
-        t[fromRow][fromColumn] = 0;
+        return copy;
     }
 
     public String toString()
