@@ -1,4 +1,5 @@
-import java.awt.geom.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeSet;
 
 public class PointSET
@@ -41,7 +42,14 @@ public class PointSET
 
     public Iterable<Point2D> range(RectHV rect)     // all points in the set that are inside the rectangle
     {
-        Point2D[] pArray = points.toArray(Point2D.class);
+        List<Point2D> inRange = new ArrayList<Point2D>();
+        for (Point2D point : points) {
+           if (rect.contains(point)) {
+               inRange.add(point);
+           }
+        }
+
+        return inRange;
     }
 
     public Point2D nearest(Point2D p)               // a nearest neighbor in the set to p; null if set is empty
