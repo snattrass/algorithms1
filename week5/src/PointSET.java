@@ -1,3 +1,4 @@
+import java.awt.geom.*;
 import java.util.TreeSet;
 
 public class PointSET
@@ -45,5 +46,22 @@ public class PointSET
 
     public Point2D nearest(Point2D p)               // a nearest neighbor in the set to p; null if set is empty
     {
+        Point2D nearest = null;
+        double min = 0;
+        double distance = 0;
+
+        for (Point2D point : points) {
+            if (point.equals(p)) {
+                continue;
+            }
+
+            distance = point.distanceTo(p);
+            if (distance < min) {
+                min = distance;
+                nearest = point;
+            }
+        }
+
+        return nearest;
     }
 }
