@@ -1,6 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
-
 public class KdTree
 {
     private Node2D root = null;
@@ -23,7 +20,8 @@ public class KdTree
     public void insert(Point2D p)                   // add the point p to the set (if it is not already in the set)
     {
         if (isEmpty()) {
-            root = new Node2D(p);
+            RectHV rect = new RectHV(0, 0, 1, 1);
+            root = new Node2D(p, rect);
             size++;
             return;
         }
@@ -33,21 +31,25 @@ public class KdTree
            return;
         }
 
+        Node2D parent = node.parent;
         if (node.isEvenNode()) {
-            if (p.x() < node.parent.point.x()) {
-                node.parent.left = new Node2D(p, node.parent.parent);
+            if (p.x() < parent.point.x()) {
+                RectHV rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(), parent.point.x(), parent.rect.ymax());
+                parent.left = new Node2D(p, parent.parent, rect);
             }
             else {
-                node.parent.right = new Node2D(p, node.parent.parent);
+                RectHV rect = new RectHV(parent.point.x(), parent.rect.ymin(), parent.rect.xmax(), parent.rect.ymax());
+                parent.right = new Node2D(p, parent.parent, rect);
             }
-
         }
         else {
-            if (p.y() < node.parent.point.y()) {
-                node.parent.left = new Node2D(p, node.parent.parent);
+            if (p.y() < parent.point.y()) {
+                RectHV rect = new RectHV(parent.rect.xmin(), parent.rect.ymin(), parent.rect.xmax(), parent.point.y());
+                parent.left = new Node2D(p, parent.parent, rect);
             }
             else {
-                node.parent.right = new Node2D(p, node.parent.parent);
+                RectHV rect = new RectHV(parent.rect.xmin(), parent.point.y(), parent.rect.xmax(), parent.rect.ymax());
+                parent.right = new Node2D(p, parent.parent, rect);
             }
         }
     }
@@ -82,9 +84,27 @@ public class KdTree
 
     public Iterable<Point2D> range(RectHV rect)     // all points in the set that are inside the rectangle
     {
-        List<Point2D> inRange = new ArrayList<Point2D>();
+        Stack<Point2D> points = new Stack<Point2D>();
+        foo(root, rect, points);
+        return points;
+    }
 
-        return inRange;
+    private void foo(Node2D node, RectHV rect, Stack<Point2D> points)
+    {
+        if (null == node) {
+           return;
+        }
+
+        if (!node.rect.intersects(rect)) {
+            return;
+        }
+
+        if (rect.contains(node.point)) {
+            points.push(node.point);
+        }
+
+        foo(node.left, rect, points);
+        foo(node.right, rect, points);
     }
 
     public Point2D nearest(Point2D p)               // a nearest neighbor in the set to p; null if set is empty
@@ -96,14 +116,15 @@ public class KdTree
 
     private class Node2D
     {
-        public Node2D(Point2D point)
+        public Node2D(Point2D point, RectHV rect)
         {
             this.point = point;
+            this.rect = rect;
         }
 
-        public Node2D(Point2D point, Node2D parent)
+        public Node2D(Point2D point, Node2D parent, RectHV rect)
         {
-            this.point = point;
+            this(point, rect);
             this.parent = parent;
             level = parent.level + 1;
         }
@@ -118,5 +139,6 @@ public class KdTree
         private Node2D right;
         private Node2D parent;
         private int level;
+        private RectHV rect;
     }
 }
