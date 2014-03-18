@@ -161,31 +161,38 @@ public class KdTree
             return;
         }
 
-        if (distance < node.rect.distanceSquaredTo(point))
+        if (distance < node.rect.distanceSquaredTo(point)) {    // prune
             return;
+        }
 
-        double d = point.distanceSquaredTo(node.point);
-        if (d < distance) {
+        if (point.distanceSquaredTo(node.point) < distance) {
             points.push(node.point);
         }
-        distance = d;
 
         if ((level++ % 2) == 0) {
             if (point.x() < node.point.x()) {
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.left, point, points, distance, level);
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.right, point, points, distance, level);
             }
             else {
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.right, point, points, distance, level);
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.left, point, points, distance, level);
             }
         } else {
             if (point.y() < node.point.y()) {
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.left, point, points, distance, level);
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.right, point, points, distance, level);
             }
             else {
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.right, point, points, distance, level);
+                distance = point.distanceSquaredTo(points.peek());
                 nearest(node.left, point, points, distance, level);
             }
         }
@@ -193,15 +200,15 @@ public class KdTree
 
     private static class Node2D
     {
+        private Point2D point;
+        private Node2D left;
+        private Node2D right;
+        private RectHV rect;
+
         public Node2D(Point2D point, RectHV rect)
         {
             this.point = point;
             this.rect = rect;
         }
-
-        private Point2D point;
-        private Node2D left;
-        private Node2D right;
-        private RectHV rect;
     }
 }
