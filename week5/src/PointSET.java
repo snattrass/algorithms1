@@ -55,7 +55,7 @@ public class PointSET
     public Point2D nearest(Point2D p)               // a nearest neighbor in the set to p; null if set is empty
     {
         Point2D nearest = null;
-        double min = 0;
+        double min = 1.1;   // start with a point outside the range 0 to 1
         double distance = 0;
 
         for (Point2D point : points) {
