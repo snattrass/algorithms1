@@ -191,7 +191,7 @@ public class KdTree
         }
     }
 
-    private class Node2D
+    private static class Node2D
     {
         public Node2D(Point2D point, RectHV rect)
         {
