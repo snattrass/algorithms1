@@ -90,10 +90,10 @@ public class KdTree
 
     public void draw()                              // draw all of the points to standard draw
     {
-        draw(root);
+        draw(root, 0);
     }
 
-    private void draw(Node2D node)
+    private void draw(Node2D node, int level)
     {
        if (null == node) {
            return;
@@ -105,21 +105,21 @@ public class KdTree
 
         StdDraw.setPenRadius(.003);
 
-        if (node.isEvenNode()) {
+        if ((level++) % 2 == 0) {
             StdDraw.setPenColor(StdDraw.RED);
             node.point.drawTo(new Point2D(node.point.x(), node.rect.ymax()));
             node.point.drawTo(new Point2D(node.point.x(), node.rect.ymin()));
 
-            draw(node.left);
-            draw(node.right);
+            draw(node.left, level);
+            draw(node.right, level);
         }
         else {
             StdDraw.setPenColor(StdDraw.BLUE);
             node.point.drawTo(new Point2D(node.rect.xmax(), node.point.y()));
             node.point.drawTo(new Point2D(node.rect.xmin(), node.point.y()));
 
-            draw(node.left);
-            draw(node.right);
+            draw(node.left, level);
+            draw(node.right, level);
         }
     }
 
@@ -151,11 +151,11 @@ public class KdTree
     public Point2D nearest(Point2D p)               // a nearest neighbor in the set to p; null if set is empty
     {
         Stack<Point2D> stack = new Stack<Point2D>();
-        nearest(root, p, stack, 2.0);
+        nearest(root, p, stack, 2.0, 0);
         return stack.pop();
     }
 
-    private void nearest(Node2D node, Point2D point, Stack<Point2D> points, double distance)
+    private void nearest(Node2D node, Point2D point, Stack<Point2D> points, double distance, int level)
     {
         if (null == node) {
             return;
@@ -170,23 +170,23 @@ public class KdTree
         }
         distance = d;
 
-        if (node.isEvenNode()) {
+        if ((level++ % 2) == 0) {
             if (point.x() < node.point.x()) {
-                nearest(node.left, point, points, distance);
-                nearest(node.right, point, points, distance);
+                nearest(node.left, point, points, distance, level);
+                nearest(node.right, point, points, distance, level);
             }
             else {
-                nearest(node.right, point, points, distance);
-                nearest(node.left, point, points, distance);
+                nearest(node.right, point, points, distance, level);
+                nearest(node.left, point, points, distance, level);
             }
         } else {
             if (point.y() < node.point.y()) {
-                nearest(node.left, point, points, distance);
-                nearest(node.right, point, points, distance);
+                nearest(node.left, point, points, distance, level);
+                nearest(node.right, point, points, distance, level);
             }
             else {
-                nearest(node.right, point, points, distance);
-                nearest(node.left, point, points, distance);
+                nearest(node.right, point, points, distance, level);
+                nearest(node.left, point, points, distance, level);
             }
         }
     }
@@ -199,16 +199,9 @@ public class KdTree
             this.rect = rect;
         }
 
-        public boolean isEvenNode()
-        {
-            return level % 2 == 0;
-        }
-
         private Point2D point;
         private Node2D left;
         private Node2D right;
-        private Node2D parent;
-        private int level;
         private RectHV rect;
     }
 }
